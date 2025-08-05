@@ -77,7 +77,7 @@ const Hero = () => {
               data-aos="fade-up"
               data-aos-delay="200"
             >
-              Hallo <br className="hidden md:block" /> <span style={{ color: "#F08B50" }}>Brandio</span> di sini!
+              Hallo <br className="hidden md:block" /> <span style={{ color: "#F08B50" }}>BRANDIO</span> di sini!
             </h1>
             <p
               className="text-base md:text-xl max-w-2xl mx-auto md:mx-0 mb-8"
