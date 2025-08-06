@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import logoBrandio from "/images/Logo_brandio2.png";
 
+// Navbar items as in the image
 const navItems = [
   { id: "home", name: "Home", sectionId: null },
-  { id: "spot", name: "Spot", sectionId: "spot-brand" },
-  { id: "kontak", name: "Kontak", sectionId: "kontak" },
+  { id: "solutions", name: "Solutions", sectionId: "solutions" },
+  { id: "features", name: "Features", sectionId: "features" },
+  { id: "faq", name: "FAQ", sectionId: "faq" },
 ];
 
 const getActiveNav = (pathname) => {
   if (pathname === "/" || pathname === "/home") return "home";
-  // No route for spot, so only home is handled by route
   return null;
 };
 
@@ -17,28 +19,23 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [active, setActive] = useState("home");
   const location = useLocation();
-  const spotClickedRef = useRef(false);
+  const navClickedRef = useRef(false);
 
   // Update active nav on route change
   useEffect(() => {
-    // Only update active if spot was NOT just clicked
-    if (!spotClickedRef.current) {
+    if (!navClickedRef.current) {
       const current = getActiveNav(location.pathname);
       if (current) setActive(current);
     }
-    // Reset spotClickedRef after route change
-    spotClickedRef.current = false;
+    navClickedRef.current = false;
   }, [location.pathname]);
 
   // Scroll spy: update active nav based on scroll position
   useEffect(() => {
     const handleScroll = () => {
-      // Section order: home (top), spot-brand, kontak
-      // Find which section is currently in view
       const scrollY = window.scrollY || window.pageYOffset;
-      const offset = 120; // offset for sticky navbar height
+      const offset = 120;
 
-      // Get section positions
       const sections = [
         { id: "home", top: 0 },
         ...navItems
@@ -52,10 +49,8 @@ const Navbar = () => {
           }),
       ];
 
-      // Sort by top position
       sections.sort((a, b) => a.top - b.top);
 
-      // Find the current section
       let currentSection = "home";
       for (let i = 0; i < sections.length; i++) {
         if (scrollY + offset >= sections[i].top) {
@@ -69,7 +64,6 @@ const Navbar = () => {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    // Run once on mount to set initial state
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
     // eslint-disable-next-line
@@ -86,9 +80,7 @@ const Navbar = () => {
     } else {
       const navItem = navItems.find(item => item.id === id);
       const sectionId = navItem?.sectionId;
-      if (id === "spot") {
-        spotClickedRef.current = true;
-      }
+      navClickedRef.current = true;
       if (sectionId) {
         const section = document.getElementById(sectionId);
         if (section) {
@@ -100,103 +92,63 @@ const Navbar = () => {
     }
   };
 
-  return (
-    <nav className="sticky top-6 z-50 w-full flex justify-center px-2 md:px-0 text-lg">
-      <div
-        className="rounded-full px-4 md:px-12 py-3 md:py-4 shadow-2xl flex items-center justify-between
-        bg-white text-black w-full max-w-[700px]"
-      >
-        {/* Logo (Mobile only) */}
-        <div className="block md:hidden font-bold text-lg pl-4">Parfume</div>
-        {/* Desktop Navbar */}
-        <div className="hidden md:flex flex-1 items-center justify-center">
-          <div className="flex flex-1 items-center justify-center w-full gap-2">
-            {navItems.map((item) =>
-              item.id === "spot" ? (
-                <a
-                  key={item.id}
-                  href="#spot-brand"
-                  onClick={e => {
-                    e.preventDefault();
-                    handleNavClick(item.id);
-                  }}
-                  className={`flex-1 text-center relative cursor-pointer text-base font-semibold tracking-wide bg-transparent border-none outline-none shadow-none
-                    ${active === item.id ? "text-indigo-700" : "text-gray-800"}
-                  `}
-                  style={{
-                    boxShadow: "none",
-                    border: "none",
-                    background: "none",
-                  }}
-                >
-                  <span>{item.name}</span>
-                  <div
-                    className={`absolute -bottom-1 left-1/2 -translate-x-1/2 h-0.5 ${
-                      active === item.id
-                        ? "w-4/5 bg-gradient-to-r from-indigo-500 to-indigo-300"
-                        : "w-0"
-                    }`}
-                  ></div>
-                </a>
-              ) : item.id === "home" ? (
-                <span
-                  key={item.id}
-                  onClick={e => {
-                    e.preventDefault();
-                    handleNavClick(item.id);
-                  }}
-                  className={`flex-1 text-center relative cursor-pointer text-base font-semibold tracking-wide bg-transparent border-none outline-none shadow-none
-                    ${active === item.id ? "text-indigo-700" : "text-gray-800"}
-                  `}
-                  style={{
-                    boxShadow: "none",
-                    border: "none",
-                    background: "none",
-                  }}
-                >
-                  <span>{item.name}</span>
-                  <div
-                    className={`absolute -bottom-1 left-1/2 -translate-x-1/2 h-0.5 ${
-                      active === item.id
-                        ? "w-4/5 bg-gradient-to-r from-indigo-500 to-indigo-300"
-                        : "w-0"
-                    }`}
-                  ></div>
-                </span>
-              ) : (
-                <span
-                  key={item.id}
-                  onClick={e => {
-                    e.preventDefault();
-                    handleNavClick(item.id);
-                  }}
-                  className={`flex-1 text-center relative cursor-pointer text-base font-semibold tracking-wide bg-transparent border-none outline-none shadow-none
-                    ${active === item.id ? "text-indigo-700" : "text-gray-800"}
-                  `}
-                  style={{
-                    boxShadow: "none",
-                    border: "none",
-                    background: "none",
-                  }}
-                >
-                  <span>{item.name}</span>
-                  <div
-                    className={`absolute -bottom-1 left-1/2 -translate-x-1/2 h-0.5 ${
-                      active === item.id
-                        ? "w-4/5 bg-gradient-to-r from-indigo-500 to-indigo-300"
-                        : "w-0"
-                    }`}
-                  ></div>
-                </span>
-              )
-            )}
-          </div>
-        </div>
+  // Login button only
+  const LoginButton = () => (
+    <button
+      className="bg-[#CC262A] hover:bg-[#d13d3d] text-white font-semibold rounded-lg px-6 py-2 ml-2 transition-colors duration-200 text-sm"
+      style={{ minWidth: 90 }}
+    >
+      Let's Talk
+    </button>
+  );
 
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 w-full bg-white">
+      <div className="max-w-[1600px] mx-auto flex items-center justify-between px-4 md:px-12 py-2 md:py-0 h-[60px]">
+        {/* Logo Brandio on the far left */}
+        <div className="flex items-center min-w-[260px]">
+          <img
+            src={logoBrandio}
+            alt="Brandio Logo"
+            className="h-40 w-40 object-contain mr-2 cursor-pointer"
+            onClick={e => {
+              e.preventDefault();
+              handleNavClick("home");
+            }}
+          />
+        </div>
+        {/* Nav items centered */}
+        <div className="hidden md:flex flex-1 items-center justify-center gap-8">
+          {navItems.map((item) => {
+            const isActive = active === item.id;
+            return (
+              <button
+                key={item.id}
+                className={`relative bg-transparent border-none outline-none px-2 py-1 text-base font-medium tracking-wide cursor-pointer transition-colors duration-150
+                  ${isActive ? "text-[#E94B4B]" : "text-gray-700 hover:text-[#E94B4B]"}`}
+                style={{ boxShadow: "none", background: "none" }}
+                onClick={e => {
+                  e.preventDefault();
+                  handleNavClick(item.id);
+                }}
+              >
+                {item.name}
+                <div
+                  className={`absolute left-1/2 -translate-x-1/2 -bottom-1 h-0.5 rounded-full transition-all duration-200
+                    ${isActive ? "w-4/5 bg-[#E94B4B]" : "w-0 bg-transparent"}`}
+                ></div>
+              </button>
+            );
+          })}
+        </div>
+        {/* Right side: login only */}
+        <div className="flex items-center gap-2 ml-2">
+          <LoginButton />
+        </div>
         {/* Mobile Menu Toggle */}
         <span
           onClick={() => setMobileOpen((open) => !open)}
-          className="md:hidden ml-auto bg-purple-600 hover:bg-purple-700 text-white rounded-full p-2 transition-colors duration-200"
+          className="md:hidden ml-2 bg-[#E94B4B] hover:bg-[#d13d3d] text-white rounded-full p-2 transition-colors duration-200"
           aria-label="Toggle menu"
         >
           {!mobileOpen ? (
@@ -210,92 +162,46 @@ const Navbar = () => {
           )}
         </span>
       </div>
-
       {/* Mobile Navbar */}
       {mobileOpen && (
         <div
-          className="md:hidden absolute top-full mt-2 left-1/2 transform -translate-x-1/2 w-[90%] rounded-xl shadow-lg z-50 py-4 px-4 flex flex-col space-y-2
-          bg-white border text-black"
+          className="md:hidden absolute top-full left-0 w-full rounded-b-xl z-50 py-4 px-4 flex flex-col space-y-2 bg-white border-t text-black shadow-lg"
         >
-          {navItems.map((item) =>
-            item.id === "spot" ? (
-              <a
-                key={item.id}
-                href="#spot-brand"
-                onClick={e => {
-                  e.preventDefault();
-                  handleNavClick(item.id);
-                }}
-                className={`text-center relative cursor-pointer py-3 rounded-md text-base font-semibold tracking-wide bg-transparent border-none outline-none shadow-none
-                  ${active === item.id ? "text-indigo-700" : "text-gray-800"}
-                `}
-                style={{
-                  boxShadow: "none",
-                  border: "none",
-                  background: "none",
-                }}
-              >
-                <span>{item.name}</span>
-                <div
-                  className={`absolute -bottom-1 left-1/2 -translate-x-1/2 h-0.5 ${
-                    active === item.id
-                      ? "w-4/5 bg-gradient-to-r from-indigo-500 to-indigo-300"
-                      : "w-0"
-                  }`}
-                ></div>
-              </a>
-            ) : item.id === "home" ? (
-              <span
-                key={item.id}
-                onClick={e => {
-                  e.preventDefault();
-                  handleNavClick(item.id);
-                }}
-                className={`text-center relative cursor-pointer py-3 rounded-md text-base font-semibold tracking-wide bg-transparent border-none outline-none shadow-none
-                  ${active === item.id ? "text-indigo-700" : "text-gray-800"}
-                `}
-                style={{
-                  boxShadow: "none",
-                  border: "none",
-                  background: "none",
-                }}
-              >
-                <span>{item.name}</span>
-                <div
-                  className={`absolute -bottom-1 left-1/2 -translate-x-1/2 h-0.5 ${
-                    active === item.id
-                      ? "w-4/5 bg-gradient-to-r from-indigo-500 to-indigo-300"
-                      : "w-0"
-                  }`}
-                ></div>
-              </span>
-            ) : (
-              <span
-                key={item.id}
-                onClick={e => {
-                  e.preventDefault();
-                  handleNavClick(item.id);
-                }}
-                className={`text-center relative cursor-pointer py-3 rounded-md text-base font-semibold tracking-wide bg-transparent border-none outline-none shadow-none
-                  ${active === item.id ? "text-indigo-700" : "text-gray-800"}
-                `}
-                style={{
-                  boxShadow: "none",
-                  border: "none",
-                  background: "none",
-                }}
-              >
-                <span>{item.name}</span>
-                <div
-                  className={`absolute -bottom-1 left-1/2 -translate-x-1/2 h-0.5 ${
-                    active === item.id
-                      ? "w-4/5 bg-gradient-to-r from-indigo-500 to-indigo-300"
-                      : "w-0"
-                  }`}
-                ></div>
-              </span>
-            )
-          )}
+          {/* Logo Brandio centered in mobile menu */}
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <img
+              src={logoBrandio}
+              alt="Brandio Logo"
+              className="h-8 w-8 object-contain mr-2"
+            />
+            <span className="text-[#E94B4B] font-bold text-lg tracking-wide select-none">Brandio</span>
+          </div>
+          <div className="flex flex-col gap-2 items-center">
+            {navItems.map((item) => {
+              const isActive = active === item.id;
+              return (
+                <button
+                  key={item.id}
+                  className={`relative w-full text-center bg-transparent border-none outline-none py-3 rounded-md text-base font-semibold tracking-wide cursor-pointer transition-colors duration-150
+                    ${isActive ? "text-[#E94B4B]" : "text-gray-800 hover:text-[#E94B4B]"}`}
+                  style={{ boxShadow: "none", background: "none" }}
+                  onClick={e => {
+                    e.preventDefault();
+                    handleNavClick(item.id);
+                  }}
+                >
+                  {item.name}
+                  <div
+                    className={`absolute left-1/2 -translate-x-1/2 -bottom-1 h-0.5 rounded-full transition-all duration-200
+                      ${isActive ? "w-4/5 bg-[#E94B4B]" : "w-0 bg-transparent"}`}
+                  ></div>
+                </button>
+              );
+            })}
+          </div>
+          <div className="flex items-center justify-center gap-2 mt-4">
+            <LoginButton />
+          </div>
         </div>
       )}
     </nav>

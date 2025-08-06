@@ -15,8 +15,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  /* Hapus background-color gelap/black jika ada */
-  background: linear-gradient(to bottom right, #f0f6ff 0%, #ffffff 60%, #e0ecff 100%);
+  background-color: #ffffff; 
 }
 
 h1 {
