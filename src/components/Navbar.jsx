@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom"; // Removed to avoid error outside <Router>
 import logoBrandio from "/images/Logo_brandio2.png";
 
 // Navbar items as in the image
 const navItems = [
   { id: "home", name: "Home", sectionId: null },
   { id: "solutions", name: "Solutions", sectionId: "solutions" },
-  { id: "features", name: "Features", sectionId: "features" },
+  // Ganti "Features" menjadi "Layanan"
+  { id: "features", name: "Layanan", sectionId: "features" },
   { id: "faq", name: "FAQ", sectionId: "faq" },
 ];
 
@@ -18,17 +19,21 @@ const getActiveNav = (pathname) => {
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [active, setActive] = useState("home");
-  const location = useLocation();
+  const [showNavbar, setShowNavbar] = useState(true);
+  // const location = useLocation(); // Removed to avoid error outside <Router>
   const navClickedRef = useRef(false);
+  const lastScrollY = useRef(0);
 
   // Update active nav on route change
+  // Removed useLocation dependency, fallback to window.location
   useEffect(() => {
     if (!navClickedRef.current) {
-      const current = getActiveNav(location.pathname);
+      const current = getActiveNav(window.location.pathname);
       if (current) setActive(current);
     }
     navClickedRef.current = false;
-  }, [location.pathname]);
+    // eslint-disable-next-line
+  }, [window.location.pathname]);
 
   // Scroll spy: update active nav based on scroll position
   useEffect(() => {
@@ -69,6 +74,33 @@ const Navbar = () => {
     // eslint-disable-next-line
   }, [active]);
 
+  // Hide navbar on scroll down, show on scroll up
+  useEffect(() => {
+    let ticking = false;
+    const handleShowHideNavbar = () => {
+      const currentScrollY = window.scrollY || window.pageYOffset;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (currentScrollY <= 0) {
+            setShowNavbar(true);
+          } else if (currentScrollY > lastScrollY.current) {
+            // Scroll down
+            setShowNavbar(false);
+          } else if (currentScrollY < lastScrollY.current) {
+            // Scroll up
+            setShowNavbar(true);
+          }
+          lastScrollY.current = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleShowHideNavbar, { passive: true });
+    return () => window.removeEventListener("scroll", handleShowHideNavbar);
+  }, []);
+
   const handleNavClick = (id) => {
     setMobileOpen(false);
     setActive(id);
@@ -103,14 +135,19 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 w-full bg-white">
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 w-full bg-white transition-transform duration-300 ease-in-out ${
+        showNavbar ? "translate-y-0" : "-translate-y-full"
+      }`}
+      style={{ willChange: "transform" }}
+    >
       <div className="max-w-[1600px] mx-auto flex items-center justify-between px-4 md:px-12 py-2 md:py-0 h-[60px]">
         {/* Logo Brandio on the far left */}
-        <div className="flex items-center min-w-[260px]">
+        <div className="flex items-center min-w-[120px] sm:min-w-[180px] md:min-w-[260px]">
           <img
             src={logoBrandio}
             alt="Brandio Logo"
-            className="h-40 w-40 object-contain mr-2 cursor-pointer"
+            className="h-24 w-24 sm:h-28 sm:w-28 md:h-40 md:w-40 object-contain mr-2 cursor-pointer"
             onClick={e => {
               e.preventDefault();
               handleNavClick("home");
@@ -118,13 +155,13 @@ const Navbar = () => {
           />
         </div>
         {/* Nav items centered */}
-        <div className="hidden md:flex flex-1 items-center justify-center gap-8">
+        <div className="hidden md:flex flex-1 items-center justify-center gap-4 lg:gap-8">
           {navItems.map((item) => {
             const isActive = active === item.id;
             return (
               <button
                 key={item.id}
-                className={`relative bg-transparent border-none outline-none px-2 py-1 text-base font-medium tracking-wide cursor-pointer transition-colors duration-150
+                className={`relative bg-transparent border-none outline-none px-2 py-1 text-sm sm:text-base font-medium tracking-wide cursor-pointer transition-colors duration-150
                   ${isActive ? "text-[#E94B4B]" : "text-gray-700 hover:text-[#E94B4B]"}`}
                 style={{ boxShadow: "none", background: "none" }}
                 onClick={e => {
@@ -143,7 +180,10 @@ const Navbar = () => {
         </div>
         {/* Right side: login only */}
         <div className="flex items-center gap-2 ml-2">
-          <LoginButton />
+          {/* Hide on mobile, show on md+ */}
+          <span className="hidden md:inline">
+            <LoginButton />
+          </span>
         </div>
         {/* Mobile Menu Toggle */}
         <span
@@ -165,24 +205,16 @@ const Navbar = () => {
       {/* Mobile Navbar */}
       {mobileOpen && (
         <div
-          className="md:hidden absolute top-full left-0 w-full rounded-b-xl z-50 py-4 px-4 flex flex-col space-y-2 bg-white border-t text-black shadow-lg"
+          className="md:hidden absolute top-full left-0 w-full rounded-b-xl z-50 py-4 px-2 sm:px-4 flex flex-col space-y-2 bg-white border-t text-black shadow-lg"
         >
           {/* Logo Brandio centered in mobile menu */}
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <img
-              src={logoBrandio}
-              alt="Brandio Logo"
-              className="h-8 w-8 object-contain mr-2"
-            />
-            <span className="text-[#E94B4B] font-bold text-lg tracking-wide select-none">Brandio</span>
-          </div>
           <div className="flex flex-col gap-2 items-center">
             {navItems.map((item) => {
               const isActive = active === item.id;
               return (
                 <button
                   key={item.id}
-                  className={`relative w-full text-center bg-transparent border-none outline-none py-3 rounded-md text-base font-semibold tracking-wide cursor-pointer transition-colors duration-150
+                  className={`relative w-full text-center bg-transparent border-none outline-none py-2 sm:py-3 rounded-md text-sm sm:text-base font-semibold tracking-wide cursor-pointer transition-colors duration-150
                     ${isActive ? "text-[#E94B4B]" : "text-gray-800 hover:text-[#E94B4B]"}`}
                   style={{ boxShadow: "none", background: "none" }}
                   onClick={e => {
@@ -199,8 +231,14 @@ const Navbar = () => {
               );
             })}
           </div>
-          <div className="flex items-center justify-center gap-2 mt-4">
-            <LoginButton />
+          {/* Let's Talk button centered in mobile menu */}
+          <div className="flex justify-center mt-4">
+            <button
+              className="bg-[#CC262A] hover:bg-[#d13d3d] text-white font-semibold rounded-lg px-6 py-2 transition-colors duration-200 text-sm"
+              style={{ minWidth: 90 }}
+            >
+              Let's Talk
+            </button>
           </div>
         </div>
       )}
