@@ -552,7 +552,7 @@ const Hero = () => {
             </p>
             <a
               href="#kontak"
-              className="inline-block rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-center font-medium text-white hover:bg-indigo-700 transition"
+              className="inline-block rounded-md border border-transparent bg-[#CC262A] py-3 px-8 text-center font-medium text-white hover:bg-[#b71c1c] transition"
             >
               Konsultasikan Sekarang
             </a>
