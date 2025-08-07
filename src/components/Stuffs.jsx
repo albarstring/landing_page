@@ -12,33 +12,33 @@ const Stuffs = React.memo(() => {
     () => [
       {
         href: "#kontak",
-        img: "/images/image1.jpg",
+        img: "/images/image1.webp",
         alt: "Spot Brand 1",
         className: "col-span-2 sm:col-span-1 md:col-span-2 h-auto md:h-full flex flex-col",
         innerClass: "group relative flex flex-col overflow-hidden rounded-lg px-4 pb-4 pt-40 flex-grow",
       },
       {
         href: "#kontak",
-        img: "/images/image2.JPG",
+        img: "/images/image2.webp",
         alt: "Spot Brand 2",
         className: "col-span-2 sm:col-span-1 md:col-span-2 flex flex-col",
         innerClass: "group relative flex flex-col overflow-hidden rounded-lg px-4 pb-4 pt-40 mb-4",
         stacked: [
           {
             href: "#kontak",
-            img: "/images/image3.jpg",
+            img: "/images/image3.webp",
             alt: "Spot Brand 3",
           },
           {
             href: "#kontak",
-            img: "/images/image4.jpg",
+            img: "/images/image4.webp",
             alt: "Spot Brand 4",
           },
         ],
       },
       {
         href: "#kontak",
-        img: "/images/image6.JPG",
+        img: "/images/image6.webp",
         alt: "Spot Brand 5",
         className: "col-span-2 sm:col-span-1 md:col-span-1 h-auto md:h-full flex flex-col",
         innerClass: "group relative flex flex-col overflow-hidden rounded-lg px-4 pb-4 pt-40 flex-grow",
@@ -46,6 +46,9 @@ const Stuffs = React.memo(() => {
     ],
     []
   );
+
+  // WhatsApp direct link
+  const waLink = "https://wa.me/6281318942676";
 
   return (
     <>
@@ -93,7 +96,9 @@ const Stuffs = React.memo(() => {
               and know who hears it.
             </h2>
             <a
-              href="#kontak"
+              href={waLink}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-block px-5 sm:px-8 py-2 sm:py-3 rounded-full font-semibold text-white bg-[#CC262A] hover:bg-[#a61b1f] transition-colors duration-200 shadow-md text-sm sm:text-base"
               style={{
                 minWidth: 90,
@@ -166,7 +171,7 @@ const Stuffs = React.memo(() => {
       </div>
 
       {/* Spot Brand Section */}
-      <section className="py-10" id="spot-brand">
+      <section className="py-10" id="location">
         {/* Teks dan CTA */}
         <div
           className="flex flex-col items-center text-center justify-center"

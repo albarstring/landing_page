@@ -75,14 +75,6 @@ const Peta = () => {
               Strategic locations in Serang City and surrounding areas, ready
               to maximize your promotional reach.
             </p>
-            <div className="my-4 flex justify-start">
-              <DotLottieReact
-                src="https://lottie.host/fcfaccfe-45e4-4c23-ba27-43712e18a804/aztsYCNTvX.lottie"
-                loop
-                autoplay
-                style={{ width: 200, height: 200 }}
-              />
-            </div>
           </div>
           {/* Kanan: Peta, Tombol, dan Teks bawah */}
           <div className="w-full md:w-1/2 flex flex-col items-center">

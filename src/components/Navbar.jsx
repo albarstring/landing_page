@@ -7,7 +7,7 @@ const navItems = [
   { id: "home", name: "Home", sectionId: null },
   { id: "solutions", name: "Solutions", sectionId: "solutions" },
   // Ganti "Features" menjadi "Layanan"
-  { id: "features", name: "Layanan", sectionId: "features" },
+  { id: "location", name: "Location", sectionId: "location" },
   { id: "faq", name: "FAQ", sectionId: "faq" },
 ];
 
@@ -15,6 +15,9 @@ const getActiveNav = (pathname) => {
   if (pathname === "/" || pathname === "/home") return "home";
   return null;
 };
+
+const WA_NUMBER = "6281318942676";
+const WA_LINK = `https://wa.me/${WA_NUMBER}`;
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -126,12 +129,15 @@ const Navbar = () => {
 
   // Login button only
   const LoginButton = () => (
-    <button
-      className="bg-[#CC262A] hover:bg-[#d13d3d] text-white font-semibold rounded-lg px-6 py-2 ml-2 transition-colors duration-200 text-sm"
-      style={{ minWidth: 90 }}
+    <a
+      href={WA_LINK}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="bg-[#CC262A] hover:bg-[#d13d3d] text-white font-semibold rounded-lg px-6 py-2 ml-2 transition-colors duration-200 text-sm flex items-center justify-center"
+      style={{ minWidth: 90, textDecoration: "none" }}
     >
       Let's Talk
-    </button>
+    </a>
   );
 
   return (
@@ -161,7 +167,7 @@ const Navbar = () => {
             return (
               <button
                 key={item.id}
-                className={`relative bg-transparent border-none outline-none px-2 py-1 text-sm sm:text-base font-medium tracking-wide cursor-pointer transition-colors duration-150
+                className={`relative bg-transparent border-none outline-none focus:outline-none focus:ring-0 px-2 py-1 text-sm sm:text-base font-medium tracking-wide cursor-pointer transition-colors duration-150
                   ${isActive ? "text-[#E94B4B]" : "text-gray-700 hover:text-[#E94B4B]"}`}
                 style={{ boxShadow: "none", background: "none" }}
                 onClick={e => {
@@ -214,7 +220,7 @@ const Navbar = () => {
               return (
                 <button
                   key={item.id}
-                  className={`relative w-full text-center bg-transparent border-none outline-none py-2 sm:py-3 rounded-md text-sm sm:text-base font-semibold tracking-wide cursor-pointer transition-colors duration-150
+                  className={`relative w-full text-center bg-transparent border-none outline-none focus:outline-none focus:ring-0 py-2 sm:py-3 rounded-md text-sm sm:text-base font-semibold tracking-wide cursor-pointer transition-colors duration-150
                     ${isActive ? "text-[#E94B4B]" : "text-gray-800 hover:text-[#E94B4B]"}`}
                   style={{ boxShadow: "none", background: "none" }}
                   onClick={e => {
@@ -233,12 +239,15 @@ const Navbar = () => {
           </div>
           {/* Let's Talk button centered in mobile menu */}
           <div className="flex justify-center mt-4">
-            <button
-              className="bg-[#CC262A] hover:bg-[#d13d3d] text-white font-semibold rounded-lg px-6 py-2 transition-colors duration-200 text-sm"
-              style={{ minWidth: 90 }}
+            <a
+              href={WA_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#CC262A] hover:bg-[#d13d3d] text-white font-semibold rounded-lg px-6 py-2 transition-colors duration-200 text-sm flex items-center justify-center"
+              style={{ minWidth: 90, textDecoration: "none" }}
             >
               Let's Talk
-            </button>
+            </a>
           </div>
         </div>
       )}

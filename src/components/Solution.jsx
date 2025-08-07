@@ -1,5 +1,109 @@
 import React from "react";
 
+const tabs = [
+  {
+    label: "Smart Announcer",
+    icon: (
+      <svg width="28" height="28" fill="none" viewBox="0 0 28 28" className="inline-block mr-2">
+        <rect x="4" y="8" width="8" height="12" rx="2" fill="#CC262A" />
+        <rect x="14" y="4" width="6" height="20" rx="3" fill="#E94B4B" />
+        <circle cx="21" cy="14" r="2" fill="#CC262A" />
+      </svg>
+    ),
+    content: (
+      <div className="text-gray-700 text-base md:text-lg">
+        <h4 className="font-bold text-xl mb-2" style={{ color: "#CC262A" }}>Audio Ads</h4>
+        <p>
+          Your brand message is broadcast through the mall's audio system, reaching every visitor in the area. Perfect for mass awareness and brand recall.
+        </p>
+        <ul className="list-disc pl-6 mt-3 text-sm md:text-base">
+          <li>High reach to all mall visitors</li>
+          <li>Flexible scheduling</li>
+          <li>Professional voice over</li>
+        </ul>
+      </div>
+    ),
+  },
+  {
+    label: "Smart Digital Signage",
+    icon: (
+      <svg width="28" height="28" fill="none" viewBox="0 0 28 28" className="inline-block mr-2">
+        <rect x="5" y="7" width="18" height="10" rx="2" fill="#CC262A" />
+        <rect x="10" y="19" width="8" height="2" rx="1" fill="#E94B4B" />
+        <circle cx="14" cy="12" r="2" fill="#E94B4B" />
+      </svg>
+    ),
+    content: (
+      <div className="text-gray-700 text-base md:text-lg">
+        <h4 className="font-bold text-xl mb-2" style={{ color: "#CC262A" }}>Smart Digital Signage</h4>
+        <p>
+          Display your creative ads on our digital screens in strategic locations. Capture attention with visuals and motion graphics.
+        </p>
+        <ul className="list-disc pl-6 mt-3 text-sm md:text-base">
+          <li>Eye-catching digital displays</li>
+          <li>Flexible content updates</li>
+          <li>Prime locations in the mall</li>
+        </ul>
+      </div>
+    ),
+  },
+  {
+    label: "Activation",
+    icon: (
+      <svg width="28" height="28" fill="none" viewBox="0 0 28 28" className="inline-block mr-2">
+        <rect x="7" y="7" width="14" height="14" rx="7" fill="#CC262A" />
+        <path d="M14 10v4l3 2" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    ),
+    content: (
+      <div className="text-gray-700 text-base md:text-lg">
+        <h4 className="font-bold text-xl mb-2" style={{ color: "#CC262A" }}>Activation</h4>
+        <p>
+          Engage directly with your audience through on-ground activation events, product sampling, and interactive experiences.
+        </p>
+        <ul className="list-disc pl-6 mt-3 text-sm md:text-base">
+          <li>Direct customer engagement</li>
+          <li>Customizable event concepts</li>
+          <li>Boost brand interaction</li>
+        </ul>
+      </div>
+    ),
+  },
+];
+
+function TabSwitcher() {
+  const [activeTab, setActiveTab] = React.useState(0);
+
+  return (
+    <div className="w-full">
+      <div className="flex justify-center gap-2 md:gap-6 mb-6">
+        {tabs.map((tab, idx) => (
+          <button
+            key={tab.label}
+            className={`flex items-center px-4 py-2 rounded-full font-semibold transition-colors duration-200
+              ${activeTab === idx
+                ? "bg-[#CC262A] text-white shadow"
+                : "bg-white text-[#CC262A] border border-[#CC262A] hover:bg-[#fbeaea]"}
+            `}
+            onClick={() => setActiveTab(idx)}
+            type="button"
+            style={{
+              outline: "none",
+              boxShadow: activeTab === idx ? "0 4px 16px 0 rgba(204,38,42,0.10)" : undefined,
+            }}
+          >
+            {tab.icon}
+            <span>{tab.label}</span>
+          </button>
+        ))}
+      </div>
+      <div className="bg-white rounded-2xl shadow p-6 min-h-[160px] transition-all duration-300">
+        {tabs[activeTab].content}
+      </div>
+    </div>
+  );
+}
+
 const Solution = () => (
   <>
     <section
@@ -52,7 +156,7 @@ const Solution = () => (
           <div
             className="group relative cursor-pointer overflow-hidden px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:mx-auto sm:max-w-sm sm:rounded-lg sm:px-10"
             style={{
-              backgroundImage: "url('/images/image5.png')",
+              backgroundImage: "url('/images/image5.webp')",
               backgroundSize: "cover",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
@@ -114,7 +218,7 @@ const Solution = () => (
           <div
             className="group relative cursor-pointer overflow-hidden px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:mx-auto sm:max-w-sm sm:rounded-lg sm:px-10"
             style={{
-              backgroundImage: "url('/images/image7.png')",
+              backgroundImage: "url('/images/image7.webp')",
               backgroundSize: "cover",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
@@ -173,6 +277,12 @@ const Solution = () => (
           </div>
           {/* (Customer Behavior Analytics tidak ditampilkan sesuai instruksi) */}
         </div>
+      </div>
+    </section>
+    {/* Switch Tab Section */}
+    <section className="py-10" id="solution-tabs">
+      <div className="max-w-4xl mx-auto px-4">
+        <TabSwitcher />
       </div>
     </section>
   </>
