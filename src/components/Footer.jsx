@@ -65,7 +65,7 @@ const Footer = () => {
                   <rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" />
                   <path d="M3 7l9 6 9-6" stroke="currentColor" strokeWidth={1.5} fill="none" />
                 </svg>
-                <span>business@sanasthan.io</span>
+                <span>viyan@sanasthan.io</span>
               </div>
             </div>
           </div>

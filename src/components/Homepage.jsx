@@ -180,7 +180,7 @@ const Hero = () => {
             <svg width="36" height="36" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path d="M13 2L3 14h9l-1 8L21 10h-9l1-8z" />
             </svg>
-            <span className="text-xs mt-2">Lightning Fast</span>
+            <span className="text-xs mt-2">AI and IOT Based</span>
           </span>
           <span title="Secure" className="flex flex-col items-center w-40">
             <svg width="36" height="36" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">

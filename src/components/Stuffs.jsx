@@ -53,7 +53,7 @@ const Stuffs = React.memo(() => {
   return (
     <>
       <section
-        className="flex justify-center items-center my-8 sm:my-12 py-12 sm:py-20 md:py-24"
+        className="flex justify-center items-center my-2 sm:my-4 py-8 sm:py-12 md:py-16"
         aria-label="Let your content speak"
       >
         <div
@@ -108,59 +108,55 @@ const Stuffs = React.memo(() => {
               Let's Do It
             </a>
           </div>
-          {/* Right: Woman with megaphone and badge */}
+        
+          <div className=" md:hidden absolute inset-x-0 bottom-0 flex justify-center z-20 pointer-events-none">
+            <img
+              src="/images/people2.png"
+              alt="Woman with megaphone"
+              className="w-[90px]"
+              style={{
+                marginBottom: "0rem", // naikkan ke atas
+                zIndex: 20,
+                pointerEvents: "auto",
+                marginLeft: "20rem", // geser ke kanan (bukan ke kiri)
+              }}
+              loading="lazy"
+            />
+          </div>
+          {/* Desktop: show people2.png on the right, as before */}
           <div
             className="
-                    absolute
-                    right-0
-                    -top-12 xs:-top-16 sm:-top-24 md:-top-32
-                    flex flex-col items-end z-20
-                    w-[90px] xs:w-[110px] sm:w-[180px] md:w-[260px] lg:w-[320px]
-                  "
+              hidden md:flex
+              absolute
+              right-0
+              -top-32
+              flex-col items-end z-20
+              w-[260px] lg:w-[320px]
+            "
+            style={{ pointerEvents: "none" }}
           >
-            <div className="relative w-full flex flex-col items-end">
+            <div className="relative w-full flex flex-col items-end" style={{ marginTop: "-6.1rem" }}>
+              {/* Foto wanita dengan megaphone, badge dipaskan dengan tangan */}
               <img
-                src="/images/people1.png"
+                src="/images/people2.png"
                 alt="Woman with megaphone"
                 className="
-                        w-full
-                        h-auto
-                        max-h-[120px] xs:max-h-[150px] sm:max-h-[260px] md:max-h-[420px] lg:max-h-[520px]
-                        object-contain
-                      "
+                  w-full
+                  h-auto
+                  max-h-[420px] lg:max-h-[520px]
+                  object-contain
+                  rounded-b-2xl
+                "
                 style={{
                   marginRight: "0",
                   marginTop: "0",
                   borderBottomLeftRadius: "2rem",
                   borderBottomRightRadius: "2rem",
+                  zIndex: 10,
+                  pointerEvents: "auto"
                 }}
                 loading="lazy"
               />
-              {/* Badge */}
-              <span
-                className="
-                        absolute
-                        top-0
-                        right-2 xs:right-4 sm:right-8 md:right-14
-                        bg-[#CC262A]
-                        text-white
-                        text-xs xs:text-sm md:text-base
-                        font-bold
-                        px-2 xs:px-3 sm:px-4
-                        py-1 xs:py-1.5 sm:py-2
-                        rounded-full
-                        shadow-lg
-                        whitespace-nowrap
-                      "
-                style={{
-                  fontFamily: "'Montserrat', 'Inter', Arial, sans-serif",
-                  letterSpacing: "0.01em",
-                  zIndex: 30,
-                  transform: "translate(-0.5rem, -0.5rem)",
-                }}
-              >
-                BEST BRANDIO
-              </span>
             </div>
           </div>
         </div>
