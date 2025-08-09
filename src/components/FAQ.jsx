@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 // Move FAQ data outside the component for clarity
 const faqData = [
@@ -19,6 +19,43 @@ const faqData = [
   },
 ];
 
+const SHEETDB_URL = "https://sheetdb.io/api/v1/cgm4j0gbqqpha";
+
+// Helper to format date in "Asia/Jakarta" timezone, "yyyy-MM-dd HH:mm:ss"
+function getJakartaTimestamp() {
+  // Get current time in UTC+7 (Jakarta)
+  const now = new Date();
+  // Jakarta is UTC+7
+  const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+  const jakartaOffset = 7 * 60 * 60000;
+  const jakarta = new Date(utc + jakartaOffset);
+
+  // Format: yyyy-MM-dd HH:mm:ss
+  const pad = (n) => n.toString().padStart(2, "0");
+  const year = jakarta.getFullYear();
+  const month = pad(jakarta.getMonth() + 1);
+  const day = pad(jakarta.getDate());
+  const hour = pad(jakarta.getHours());
+  const min = pad(jakarta.getMinutes());
+  const sec = pad(jakarta.getSeconds());
+  return `${year}-${month}-${day} ${hour}:${min}:${sec}`;
+}
+
+// Helper to generate an incrementing number as "Nomor"
+function useNomorCounter() {
+  // Use a ref so the counter persists across renders but doesn't cause rerenders
+  const nomorRef = useRef(1);
+
+  // This function returns the current nomor and increments it for next time
+  const getNextNomor = () => {
+    const current = nomorRef.current;
+    nomorRef.current += 1;
+    return current;
+  };
+
+  return getNextNomor;
+}
+
 const FAQ = () => {
   // Use state to manage which accordions are open (multiple can be open)
   const [openIndexes, setOpenIndexes] = useState([]);
@@ -28,6 +65,9 @@ const FAQ = () => {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+
+  // Nomor counter (incremental, starts from 1)
+  const getNextNomor = useNomorCounter();
 
   // Handler for toggling accordion
   const handleToggle = (idx) => {
@@ -44,8 +84,8 @@ const FAQ = () => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  // Simulate async subscribe (replace with real API if needed)
-  const handleSubscribe = async (e) => {
+  // Subscribe using SheetDB API (no Bearer token, as per prompt)
+  const handleSubscribe = (e) => {
     e.preventDefault();
     setError("");
     setSuccess(false);
@@ -56,17 +96,37 @@ const FAQ = () => {
     }
 
     setSubmitting(true);
-    try {
-      // Simulate API call delay
-      await new Promise((resolve) => setTimeout(resolve, 1200));
-      // Simulate success
-      setSuccess(true);
-      setEmail("");
-    } catch (err) {
-      setError("Failed to subscribe. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
+
+    fetch(SHEETDB_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // Kalau pakai token:
+        // "Authorization": "Bearer YOUR_TOKEN"
+      },
+      body: JSON.stringify({
+        data: [
+          {
+            No: getNextNomor(), // Nomor urut: 1, 2, 3, dst
+            Email: email,  // HARUS persis sama dengan header kolom di Sheet
+            Timestamp: getJakartaTimestamp()
+          }
+        ]
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        setSuccess(true);
+        setEmail("");
+      })
+      .catch(err => {
+        console.error(err);
+        setError(err.message || "Failed to subscribe. Please try again.");
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   };
 
   return (
