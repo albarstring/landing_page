@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const Hero = () => {
   useEffect(() => {
@@ -31,7 +30,7 @@ const Hero = () => {
       >
         <Container>
           <div
-            className="flex flex-col-reverse md:flex-row items-center justify-center w-full z-10 mt-8 md:mt-0"
+            className="flex flex-col-reverse md:flex-row items-center justify-center w-full z-10 mt-[-2.5rem] md:mt-[-3.5rem]"
             data-aos="fade-up"
             data-aos-delay="100"
           >
@@ -40,9 +39,10 @@ const Hero = () => {
               className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left px-4 md:px-8"
               data-aos="fade-right"
               data-aos-delay="200"
+              style={{ position: "relative", top: "-59px" }}
             >
               <h1
-                className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-2 py-4"
+                className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-2 py-2"
                 style={{
                   fontFamily: "'Montserrat', 'Inter', Arial, sans-serif",
                   color: "#2B3146",
@@ -133,37 +133,38 @@ const Hero = () => {
               </div>
             </div>
 
-            {/* Lottie Section */}
+            {/* Image Section (replace Lottie with /images/people3.webp) */}
             <div
               className="w-full md:w-1/2 flex justify-center items-center mb-6 md:mb-0"
               data-aos="fade-left"
               data-aos-delay="200"
-              style={{ minWidth: 0 }}
+              style={{ minWidth: 0, position: "relative", top: "-32px" }}
             >
               {/* Mobile: show bigger image, Desktop: show much bigger image */}
               <div className="w-full flex justify-center items-center">
                 {/* Mobile */}
-                <div className="block md:hidden w-full max-w-[380px] sm:max-w-[450px] h-auto">
-                  <DotLottieReact
-                    src="https://lottie.host/fb8a429c-ff2f-40c1-8bcf-8ebd0a61d04b/AglnnGf0sw.lottie"
-                    loop
-                    autoplay
+                <div className="block md:hidden w-full max-w-[450px] sm:max-w-[520px] h-auto" style={{ marginTop: "16px" }}>
+                  <img
+                    src="/images/people3.webp"
+                    alt="People"
                     style={{ width: "100%", height: "auto" }}
+                    loading="lazy"
                   />
                 </div>
                 {/* Desktop */}
-                <div className="hidden md:block w-full max-w-[1100px] xl:max-w-[2000px] h-auto">
-                  <div style={{ transform: "translateX(-160px)" }}>
-                    <DotLottieReact
-                      src="https://lottie.host/fb8a429c-ff2f-40c1-8bcf-8ebd0a61d04b/AglnnGf0sw.lottie"
-                      loop
-                      autoplay
+                <div className="hidden md:block w-full max-w-[1100px] xl:max-w-[2000px] h-auto" style={{ marginTop: "-24px" }}>
+                  <div style={{ transform: "translateX(32px)" }}>
+                    <img
+                      src="/images/people3.webp"
+                      alt="People"
                       style={{
                         width: "100%",
                         height: "auto",
-                        minHeight: 600,
-                        minWidth: 1000,
+                        minHeight: 400,
+                        minWidth: 700,
+                        objectFit: "cover",
                       }}
+                      loading="lazy"
                     />
                   </div>
                 </div>
