@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 
-const FORMSUBMIT_URL = "https://formsubmit.co/albarnaga123@gmail.com";
+const FORMSUBMIT_URL = "https://formsubmit.co/viyan@sansathan.io";
 
 const Form = () => {
   const formRef = useRef(null);
@@ -132,7 +132,7 @@ const Form = () => {
           </div>
           <div>
             <div className="font-semibold text-gray-900">Email</div>
-            <div className="text-sm text-gray-700">albarnaga123@gmail.com</div>
+            <div className="text-sm text-gray-700">viyan@sansathan.io</div>
           </div>
         </div>
       </div>
